@@ -1,0 +1,13 @@
+/*   BUTTONS PREVIOUS AND NEXT   */
+.buttons .container{
+    max-width:900px;
+    margin:auto;
+    padding:30px 10px;
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .btn-previous, .btn-next{
+    padding:5px 10px;
+    cursor: pointer;
+  }

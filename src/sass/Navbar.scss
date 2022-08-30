@@ -1,0 +1,20 @@
+
+.navbar {
+    background: #fff;
+}
+
+.navbar .container{
+    background: #fff;
+    display:flex;
+    justify-content: center;
+    padding:15px;
+    color:#555956;
+}
+
+.navbar .container .logo{
+    max-width: 150px;
+}
+
+.navbar .container nav h3{
+    color:#000;
+}
