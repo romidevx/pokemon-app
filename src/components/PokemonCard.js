@@ -17,7 +17,8 @@ const PokemonCard = ({pokemon}) => {
      let pokemonInfo= {
         id:    data.id,
         name:  data.name,
-        image: data.sprites.other.dream_world.front_default
+        image: data.sprites.other.dream_world.front_default,
+        type:  data.types[0].type.name
      }
      setDetails(pokemonInfo)
   }
@@ -33,8 +34,8 @@ const PokemonCard = ({pokemon}) => {
         <h4>{details.name}</h4>
 
         <div className="info">
-          {/* <p>Type: {type}</p> */}
-          <p>Id#:{details.id}</p>
+          <p>Type: {details.type}</p>
+          <p>Id# {details.id}</p>
         </div>
     </div>
   )

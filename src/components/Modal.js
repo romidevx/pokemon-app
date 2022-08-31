@@ -5,7 +5,7 @@ import CustomPokemonsState from '../hooks/CustomPokemonsState';
 const Modal = () => {
     const {showModal,toggleModal} = CustomPokemonsState();
   return (
-    <section className={showModal ? 'Modal' : 'Modal invisible'}>
+    <section className={showModal ? 'Modal' : 'Modal invisible'} onClick={() => toggleModal()}>
         <div className="container">
                 <h1 className='btn-close' onClick={() => toggleModal()}>X</h1>
             <div className="container-inner">
