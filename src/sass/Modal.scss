@@ -1,5 +1,5 @@
 .Modal{
-    position:absolute;
+    position:fixed;
     top:0;
     left:0;
     right:0;
@@ -21,6 +21,7 @@
     max-height:450px;
     background:#fff;
     padding:20px;
+    border-radius: 10px;
     overflow-y: hidden;
     position:relative;
 }
