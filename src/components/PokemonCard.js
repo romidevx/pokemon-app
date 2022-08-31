@@ -4,8 +4,8 @@ import CustomPokemonsState from '../hooks/CustomPokemonsState';
 
 const PokemonCard = ({pokemon}) => {
 
-  const {name,url} = pokemon
-  //const {fetchPokemonDetails} = CustomPokemonsState();
+  const {name} = pokemon
+  const {toggleModal} = CustomPokemonsState();
   const [details,setDetails] = useState({})
 
   //console.log(props)
@@ -28,7 +28,7 @@ const PokemonCard = ({pokemon}) => {
 
   return (
     // <div className="card" onClick={() => fetchPokemonDetails(id)}>
-    <div className="card">
+    <div className="card" onClick={() => toggleModal()}>
         <img src={details.image} alt="" width='200'/>
         <h4>{details.name}</h4>
 

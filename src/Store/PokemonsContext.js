@@ -9,11 +9,12 @@ export const PokemonsContextProvider = ({children}) => {
 
     const [globalState, setGlobalState] = useState({
         pokemonsUrls: [],
+        showModal:false,
         pokemon:{},
         loading:false,
         error:false,
         offset:0,
-        limit:30, // ITEMS PER PAGE 
+        limit:10, // ITEMS PER PAGE 
     })
 
 
@@ -30,19 +31,27 @@ export const PokemonsContextProvider = ({children}) => {
     };
 
     // *** FETCH POKEMON DETAILS ***
-    // const fetchPokemon = async (chosenId) => {
-    //     let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${chosenId}`);
-    //     let data = await response.json();
-        
-    //     // dispatch({
-    //     //     type:'SET_POKEMON_DETAILS',
-    //     //     payload: data
-    //     // });
+    const toggleModal = () => {
 
-    //     setTimeout(() => {
-    //         console.log('fetched Pokemon: ', state.pokemonDetails)
-    //     },400);
-    // }
+        setGlobalState({ 
+            ...globalState, 
+            showModal: !globalState.showModal 
+        });
+
+        console.log(globalState.showModal)
+
+        // let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${chosenId}`);
+        // let data = await response.json();
+        
+        // dispatch({
+        //     type:'SET_POKEMON_DETAILS',
+        //     payload: data
+        // });
+
+        // setTimeout(() => {
+        //     console.log('fetched Pokemon: ', state.pokemonDetails)
+        // },400);
+    }
 
     
     //INCREMENT OFFSET VALUE
@@ -52,9 +61,9 @@ export const PokemonsContextProvider = ({children}) => {
         setTimeout(() => {
             setGlobalState({ 
                 ...globalState, 
-                offset: globalState.offset += 30
+                offset: globalState.offset + globalState.limit
             });
-        },800)
+        },700)
     }
     
     //DECREMENT OFFSET VALUE
@@ -64,7 +73,7 @@ export const PokemonsContextProvider = ({children}) => {
         setTimeout(() => {
             setGlobalState({ 
                 ...globalState, 
-                offset: globalState.offset -= 30
+                offset: globalState.offset - globalState.limit
             });
         },800)
 
@@ -73,29 +82,27 @@ export const PokemonsContextProvider = ({children}) => {
 
     // CHANGE ITEMS PER PAGE - LIMIT VALUE
     const changeItemsPerPage = (value) => {
-        // setGlobalState({ 
-        //     ...globalState, 
-        //     limit: Number(value)
-        // });
-        
-        console.log('value received: ' + value)
-        console.log({
-            limit:  globalState.offset, 
-            offset: globalState.limit
-        })
+        setGlobalState({ 
+            ...globalState, 
+            limit: Number(value)
+        });
     } 
 
+    // ONLY RUNS ON START THE APP
     useEffect(() => {
         fetchPokemonsUrls();
     },[]);
 
+     // RUNS EVERY TIME offset and limit VALUES CHANGE
     useEffect(() => {
         fetchPokemonsUrls();
-    },[globalState.offset])
+    },[globalState.offset,globalState.limit])
 
     return(
         <PokemonsContext.Provider value={{
             ...globalState,
+            setGlobalState,
+            toggleModal,
             incrementPagination,
             decrementPagination,
             changeItemsPerPage,

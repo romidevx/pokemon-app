@@ -10,8 +10,8 @@ const Buttons = () => {
   return (
     <section className='buttons'>
         <div className='container'>
-            <button className='btn-previous' onClick={() => decrementPagination()} disabled={offset === 0}>Previous 20</button>
-            <button className='btn-next'     onClick={() => incrementPagination()} disabled={pokemonsUrls < limit}>Next 20</button>
+            <button className='btn-previous' onClick={() => decrementPagination()} disabled={offset === 0}>Previous {limit}</button>
+            <button className='btn-next'     onClick={() => incrementPagination()} disabled={pokemonsUrls < limit}>Next  {limit}</button>
         </div>
     </section>
 
