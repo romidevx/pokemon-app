@@ -13,7 +13,7 @@ const ItemsPerPage = () => {
   return (
     <section className='ItemsPerPage'>
         <div className='container'>
-            <h4>ItemsPerPage</h4>
+            <h4>Items Per Page</h4>
 
             <form className='form'>
                 {/* <label for='cars'>Items Per Page</label> */}
@@ -22,9 +22,11 @@ const ItemsPerPage = () => {
                     <option value='10'>10</option>
                     <option value='20'>20</option>
                     <option value='30'>30</option>
+                    {/* 
                     <option value='50'>50</option>
                     <option value='70'>70</option>
-                    <option value='100'>100</option>
+                    <option value='100'>100</option> 
+                    */}
                 </select>
             </form>
         </div>
