@@ -1,4 +1,5 @@
 import '../sass/Pokemons.scss';
+import { useEffect } from 'react';
 // CONTEXT
 import UsePokemonsContext from '../hooks/CustomPokemonsState';
 //COMPONENTS
@@ -6,10 +7,13 @@ import Spinner from './Spinner';
 import PokemonCard from './PokemonCard';
 
 const Pokemons = () => {
-  const {pokemonsUrls, loading, error} = UsePokemonsContext();
-
-  //console.log(pokemonsUrls)
   
+  const {offset,limit, pokemonsUrls, loading, error,fetchPokemonsUrls} = UsePokemonsContext();
+  useEffect(() => {
+    fetchPokemonsUrls()
+  },[offset,limit]);
+
+
   //ERROR MESSAGE
   if(error){
     return <h4 style={{textAlign:'center', paddingTop:'70px'}}>

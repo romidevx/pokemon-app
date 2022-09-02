@@ -5,32 +5,33 @@ import CustomPokemonsState from '../hooks/CustomPokemonsState';
 const PokemonCard = ({pokemon}) => {
 
   const {name} = pokemon
-  const {toggleModal} = CustomPokemonsState();
-  const [details,setDetails] = useState({})
+  const {setCurrentPokemon} = CustomPokemonsState();
+  const [details,setDetails] = useState({});
 
-  //console.log(props)
-
-  const fetchPokemonDetails = async() => {
-     let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-     let data = await response.json();
-     //CREATE NEW POKEMON
-     let pokemonInfo= {
-        id:    data.id,
-        name:  data.name,
-        image: data.sprites.other.dream_world.front_default,
-        type:  data.types[0].type.name
-     }
-     setDetails(pokemonInfo)
+  const showPokemonDetails = (name) => {
+    setCurrentPokemon(name);
   }
 
   useEffect(() => {
-    fetchPokemonDetails()
-  },[]);
+      const fetchPokemonDetails = async() => {
+        let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+        let data = await response.json();
+        //CREATE NEW POKEMON
+        let pokemonInfo= {
+          id:    data.id,
+          name:  data.name,
+          image: data.sprites.other.dream_world.front_default,
+          type:  data.types[0].type.name
+        }
+        setDetails(pokemonInfo)
+      }
+
+    fetchPokemonDetails();
+  },[name]);
 
   return (
-    // <div className="card" onClick={() => fetchPokemonDetails(id)}>
-    <div className="card" onClick={() => toggleModal()}>
-        <img src={details.image} alt="" width='200'/>
+    <div className="card" onClick={() => showPokemonDetails(details.name)}>
+        <img src={details.image} alt={details.name} width='200'/>
         <h4>{details.name}</h4>
 
         <div className="info">

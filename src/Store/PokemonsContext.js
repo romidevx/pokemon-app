@@ -1,83 +1,85 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext,useState } from "react";
 
 // POKEMONS CONTEXT
 export const PokemonsContext = createContext();
 
 
 export const PokemonsContextProvider = ({children}) => {
-    const baseUrl = 'https://pokeapi.co/api/v2/pokemon?';
-
-    const [globalState, setGlobalState] = useState({
+   const baseUrl = 'https://pokeapi.co/api/v2/pokemon?';
+   const [globalState, setGlobalState] = useState({
         pokemonsUrls: [],
         showModal:false,
-        pokemon:{},
+        selectedPokemon:'',
         loading:false,
         error:false,
         offset:0,
-        limit:10, // ITEMS PER PAGE 
+        limit:20, // ITEMS PER PAGE 
     })
 
+    console.log(globalState.pokemonsUrls.length)
 
-    const fetchPokemonsUrls = async () => {
-        const {offset,limit} = globalState;
-        setGlobalState({ ...globalState, loading:true});
-        const res = await fetch(`${baseUrl}offset=${offset}&limit=${limit}`);
-        const data = await res.json();
+    const setCurrentPokemon = (pokemonName) => {
         setGlobalState({ 
             ...globalState, 
-            pokemonsUrls:data.results, 
-            loading:false
+            selectedPokemon:{},
         });
-    };
-
-    // *** FETCH POKEMON DETAILS ***
-    const toggleModal = () => {
-
-        setGlobalState({ 
-            ...globalState, 
-            showModal: !globalState.showModal 
-        });
-
-        console.log(globalState.showModal)
-
-        // let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${chosenId}`);
-        // let data = await response.json();
         
-        // dispatch({
-        //     type:'SET_POKEMON_DETAILS',
-        //     payload: data
-        // });
+        setGlobalState({ 
+            ...globalState, 
+            selectedPokemon: pokemonName,
+            showModal:true
+        });
+    }
+    
 
-        // setTimeout(() => {
-        //     console.log('fetched Pokemon: ', state.pokemonDetails)
-        // },400);
+    // *** OPEN MODAL ***
+    const openModal = () => {
+        setGlobalState({ 
+            ...globalState, 
+            showModal: true
+        });
     }
 
-    
+    // *** CLOSE MODAL ***
+    const closeModal = () => {
+        setGlobalState({ 
+            ...globalState, 
+            showModal: false
+        });
+    }
+
     //INCREMENT OFFSET VALUE
     const incrementPagination = () => {
         const navbar = document.querySelector('.navbar');
-        navbar.scrollTo(0,0)
+        navbar.scrollTo(0,0);
+
         setTimeout(() => {
             setGlobalState({ 
                 ...globalState, 
                 offset: globalState.offset + globalState.limit
             });
-        },700)
+        },400)
     }
     
     //DECREMENT OFFSET VALUE
     const decrementPagination = (value) => {
         const navbar = document.querySelector('.navbar');
-        navbar.scrollTo(0,0)
+        navbar.scrollTo(0,0);
+
+        if(globalState.pokemonsUrls.length < globalState.limit){
+            setGlobalState({ 
+                ...globalState, 
+                offset: 0
+            });
+            return;
+        }
+
         setTimeout(() => {
             setGlobalState({ 
                 ...globalState, 
                 offset: globalState.offset - globalState.limit
             });
-        },800)
-
-        
+        },400)
     } 
 
     // CHANGE ITEMS PER PAGE - LIMIT VALUE
@@ -88,25 +90,33 @@ export const PokemonsContextProvider = ({children}) => {
         });
     } 
 
-    // ONLY RUNS ON START THE APP
-    useEffect(() => {
-        fetchPokemonsUrls();
-    },[]);
-
-     // RUNS EVERY TIME offset and limit VALUES CHANGE
-    useEffect(() => {
-        fetchPokemonsUrls();
-    },[globalState.offset,globalState.limit])
+    const fetchPokemonsUrls = async () => {
+        setGlobalState({ 
+          ...globalState, 
+          loading:true 
+        });
+    
+        const res = await fetch(`${baseUrl}offset=${globalState.offset}&limit=${globalState.limit}`);
+        const data = await res.json();
+    
+        setGlobalState({ 
+          ...globalState, 
+            pokemonsUrls: data.results, 
+            loading:false
+        });
+      };
 
     return(
         <PokemonsContext.Provider value={{
             ...globalState,
             setGlobalState,
-            toggleModal,
+            openModal,
+            closeModal,
+            fetchPokemonsUrls,
+            setCurrentPokemon,
             incrementPagination,
             decrementPagination,
             changeItemsPerPage,
-            //fetchPokemon,
         }}>
             {children}
         </PokemonsContext.Provider>

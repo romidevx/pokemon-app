@@ -4,7 +4,7 @@
     left:0;
     right:0;
     bottom:0;
-    background:rgba(0,0,0,.3);
+    background:rgba(0,0,0,.5);
     width:100vw;
     height:100vh;
     display:flex;
@@ -17,10 +17,9 @@
 .Modal .container{
     width:600px;
     max-width:600px;
-    height:450px;
-    max-height:450px;
+    height:auto;
     background:#fff;
-    padding:20px;
+    padding:15px;
     border-radius: 10px;
     overflow-y: hidden;
     position:relative;
@@ -28,16 +27,36 @@
 .top-details{
     display:grid;
     grid-template-columns: repeat(2,1fr);
+    padding:10px;
+}
+
+.top-details .pokemonImage{
+    overflow: hidden;
+    text-align: center;
+}
+
+.top-details .pokemonImage img{
+    height:150px;
+    width:150px;
+    object-fit: fill;
 }
 
 .pokemonImage, .basic-details{
     padding-bottom:10px;
 }
-.extra-details{
-    margin-top:20px;
-    overflow-y: auto;
-    height:250px;
+.basic-details .description{
+    display:grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-gap: 15px;
 }
+
+.extra-details{
+    margin-top:10px;
+    overflow-y: auto;
+    height:auto;
+    max-height:145px;
+}
+
 .invisible{
     display:none;
 }
@@ -47,6 +66,27 @@
     text-align: right;
     cursor: pointer;
 }
+
+
+/* width */
+.extra-details::-webkit-scrollbar {
+    width: 3px;
+  }
+  
+// /* Track */
+::-webkit-scrollbar-track {
+background: #d4d4d4;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #888;
+}
+
+// /* Handle on hover */
+// ::-webkit-scrollbar-thumb:hover {
+// background: #555;
+// }
 
 @media(max-width:480px){
     .top-details{
